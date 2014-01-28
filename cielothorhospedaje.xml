@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="thorhospedaje" method="upgrade">
+	<name>Cielo Pay Plugin - Thor Hospedaje</name>
+	<author>Leonardo Alviarez, Edén Arreaza</author>
+	<creationDate>November 2013</creationDate>
+	<copyright>Copyright (C) 2013. All rights reserved.</copyright>
+	<license>GNU General Public License version 3, or later</license>
+	<authorEmail>alviarez.leonardo@gmail.com</authorEmail>
+	<version>0.0.1</version>
+	<description>TH_CIELO_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="cielothorhospedaje">cielothorhospedaje.php</filename>
+		<filename>cielothorhospedaje.xml</filename>
+		<filename>index.html</filename>
+        <folder>language</folder>
+        <folder>images</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_thorhospedaje_cielothorhospedaje.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_thorhospedaje_cielothorhospedaje.sys.ini</language>
+		<language tag="es-ES">es-ES/es-ES.plg_thorhospedaje_cielothorhospedaje.ini</language>
+		<language tag="es-ES">es-ES/es-ES.plg_thorhospedaje_cielothorhospedaje.sys.ini</language>
+		<language tag="pt-BR">pt-BR/pt-BR.plg_thorhospedaje_cielothorhospedaje.ini</language>
+		<language tag="pt-BR">pt-BR/pt-BR.plg_thorhospedaje_cielothorhospedaje.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+
+			<fieldset name="basic">
+				<field name="n_establecimiento"  type="text" default=""
+					label="TH_CIELO_N_ESTABLECIMIENTO"
+					description="TH_CIELO_N_ESTABLECIMIENTO_DESC" />
+				
+				<field name="cielo_key"  type="text" default=""
+					label="TH_CIELO_KEY"
+					description="TH_CIELO_KEY_DESC" />	
+			</fieldset>
+			
+			<fieldset name="visa_electron" label="TH_CIELO_VISA_ELECTRON_TITLE" description="TH_CIELO_VISA_ELECTRON_TITLE_DESC">
+				<field name="visa_electron_enabled" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_ENABLED"
+					description="TH_CIELO_CARD_ENABLED_DESC"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				
+				<field name="visa_electron_name"  type="text" default="Visa Electron"
+					label="TH_CIELO_CARD_NAME"
+					description="TH_CIELO_CARD_NAME_DESC" />
+				
+				<field name="visa_electron_min_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_VALUE"
+					description="TH_CIELO_CARD_MIN_VALUE_DESC" />
+				
+				<field name="visa_electron_discount"  type="text" default="0"
+					label="TH_CIELO_CARD_DISCOUNT"
+					description="TH_CIELO_CARD_DISCOUNT_DESC" />
+				
+				<field name="visa_electron_cap_auto" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_CAP_AUTO"
+					description="TH_CIELO_CARD_CAP_AUTO_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="visa_electron_auth_type" type="list" 
+					default="0" 
+					label="TH_CIELO_CARD_AUTH_TYPE" 
+					description="TH_CIELO_CARD_AUTH_TYPE_DESC"
+				>
+	                <option value="0">TH_CIELO_AUTH_ONLY</option>
+	                <option value="1">TH_CIELO_AUTH_AUTHENTICATE_ONLY</option>
+	            </field> 
+			</fieldset>
+
+			<fieldset name="redeshop_maestro" label="TH_CIELO_REDESHOP_MAESTRO_TITLE" description="TH_CIELO_REDESHOP_MAESTRO_TITLE_DESC">
+				<field name="redeshop_maestro_enabled" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_ENABLED"
+					description="TH_CIELO_CARD_ENABLED_DESC"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				
+				<field name="redeshop_maestro_name"  type="text" default="Redeshop / Maestro"
+					label="TH_CIELO_CARD_NAME"
+					description="TH_CIELO_CARD_NAME_DESC" />
+				
+				<field name="redeshop_maestro_min_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_VALUE"
+					description="TH_CIELO_CARD_MIN_VALUE_DESC" />
+				
+				<field name="redeshop_maestro_discount"  type="text" default="0"
+					label="TH_CIELO_CARD_DISCOUNT"
+					description="TH_CIELO_CARD_DISCOUNT_DESC" />
+				
+				<field name="redeshop_maestro_cap_auto" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_CAP_AUTO"
+					description="TH_CIELO_CARD_CAP_AUTO_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="redeshop_maestro_auth_type" type="list" 
+					default="0" 
+					label="TH_CIELO_CARD_AUTH_TYPE" 
+					description="TH_CIELO_CARD_AUTH_TYPE_DESC"
+				>
+	                <option value="0">TH_CIELO_AUTH_ONLY</option>
+	                <option value="1">TH_CIELO_AUTH_AUTHENTICATE_ONLY</option>
+	            </field>
+			</fieldset>
+			
+			<fieldset name="visa" label="TH_CIELO_VISA_TITLE" description="TH_CIELO_VISA_TITLE_DESC">
+				<field name="visa_enabled" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_ENABLED"
+					description="TH_CIELO_CARD_ENABLED_DESC"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				
+				<field name="visa_name"  type="text" default="Visa"
+					label="TH_CIELO_CARD_NAME"
+					description="TH_CIELO_CARD_NAME_DESC" />
+				
+				<!-- <field name="visa_min_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_VALUE"
+					description="TH_CIELO_CARD_MIN_VALUE_DESC" />
+					
+				 <field name="visa_min_portion_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_PORTION_VALUE"
+					description="TH_CIELO_CARD_MIN_PORTION_VALUE_DESC" /> -->
+				
+				<field name="visa_discount"  type="text" default="0"
+					label="TH_CIELO_CARD_DISCOUNT"
+					description="TH_CIELO_CARD_DISCOUNT_DESC" />
+				
+				<field name="visa_max_without_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITHOUT_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITHOUT_INTEREST_DESC" />
+				
+				<field name="visa_max_with_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITH_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITH_INTEREST_DESC" />
+				
+				<!-- <field name="visa_max_portion"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_PORTION"
+					description="TH_CIELO_CARD_MAX_PORTION_DESC" /> -->
+				
+				<field name="visa_interest"  type="text" default="0"
+					label="TH_CIELO_CARD_INTEREST"
+					description="TH_CIELO_CARD_INTEREST_DESC" />
+					
+				<field name="visa_cap_auto" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_CAP_AUTO"
+					description="TH_CIELO_CARD_CAP_AUTO_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="visa_auth_type" type="list" 
+					default="0" 
+					label="TH_CIELO_CARD_AUTH_TYPE" 
+					description="TH_CIELO_CARD_AUTH_TYPE_DESC"
+				>
+	                <option value="0">TH_CIELO_AUTH_ONLY</option>
+	                <option value="1">TH_CIELO_AUTH_AUTHENTICATE_ONLY</option>
+	                <option value="2">TH_CIELO_NO_AUTH_ONLY_AUTHENTICATE</option>
+	                <option value="3">TH_CIELO_DIRECT_AUTH</option>
+	            </field>
+			</fieldset>
+			
+			<fieldset name="mastercard" label="TH_CIELO_MASTERCARD_TITLE" description="TH_CIELO_MASTERCARD_TITLE_DESC">
+				<field name="mastercard_enabled" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_ENABLED"
+					description="TH_CIELO_CARD_ENABLED_DESC"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				
+				<field name="mastercard_name"  type="text" default="Mastercard"
+					label="TH_CIELO_CARD_NAME"
+					description="TH_CIELO_CARD_NAME_DESC" />
+				
+				<field name="mastercard_min_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_VALUE"
+					description="TH_CIELO_CARD_MIN_VALUE_DESC" />
+					
+				<field name="mastercard_min_portion_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_PORTION_VALUE"
+					description="TH_CIELO_CARD_MIN_PORTION_VALUE_DESC" />
+				
+				<field name="mastercard_discount"  type="text" default="0"
+					label="TH_CIELO_CARD_DISCOUNT"
+					description="TH_CIELO_CARD_DISCOUNT_DESC" />
+				
+				<field name="mastercard_max_without_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITHOUT_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITHOUT_INTEREST_DESC" />
+				
+				<field name="mastercard_max_with_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITH_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITH_INTEREST_DESC" />
+				
+				<field name="mastercard_max_portion"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_PORTION"
+					description="TH_CIELO_CARD_MAX_PORTION_DESC" />
+				
+				<field name="mastercard_interest"  type="text" default="0"
+					label="TH_CIELO_CARD_INTEREST"
+					description="TH_CIELO_CARD_INTEREST_DESC" />
+					
+				<field name="mastercard_cap_auto" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_CAP_AUTO"
+					description="TH_CIELO_CARD_CAP_AUTO_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="mastercard_auth_type" type="list" 
+					default="0" 
+					label="TH_CIELO_CARD_AUTH_TYPE" 
+					description="TH_CIELO_CARD_AUTH_TYPE_DESC"
+				>
+	                <option value="0">TH_CIELO_AUTH_ONLY</option>
+	                <option value="1">TH_CIELO_AUTH_AUTHENTICATE_ONLY</option>
+	                <option value="2">TH_CIELO_NO_AUTH_ONLY_AUTHENTICATE</option>
+	                <option value="3">TH_CIELO_DIRECT_AUTH</option>
+	            </field>
+			</fieldset>
+			
+			<fieldset name="dinersclub" label="TH_CIELO_DINERSCLUB_TITLE" description="TH_CIELO_DINERSCLUB_TITLE_DESC">
+				<field name="dinersclub_enabled" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_ENABLED"
+					description="TH_CIELO_CARD_ENABLED_DESC"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				
+				<field name="dinersclub_name"  type="text" default="Diners Club"
+					label="TH_CIELO_CARD_NAME"
+					description="TH_CIELO_CARD_NAME_DESC" />
+				
+				<field name="dinersclub_min_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_VALUE"
+					description="TH_CIELO_CARD_MIN_VALUE_DESC" />
+					
+				<field name="dinersclub_min_portion_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_PORTION_VALUE"
+					description="TH_CIELO_CARD_MIN_PORTION_VALUE_DESC" />
+				
+				<field name="dinersclub_discount"  type="text" default="0"
+					label="TH_CIELO_CARD_DISCOUNT"
+					description="TH_CIELO_CARD_DISCOUNT_DESC" />
+				
+				<field name="dinersclub_max_without_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITHOUT_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITHOUT_INTEREST_DESC" />
+				
+				<field name="dinersclub_max_with_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITH_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITH_INTEREST_DESC" />
+				
+				<field name="dinersclub_max_portion"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_PORTION"
+					description="TH_CIELO_CARD_MAX_PORTION_DESC" />
+				
+				<field name="dinersclub_interest"  type="text" default="0"
+					label="TH_CIELO_CARD_INTEREST"
+					description="TH_CIELO_CARD_INTEREST_DESC" />
+					
+				<field name="dinersclub_cap_auto" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_CAP_AUTO"
+					description="TH_CIELO_CARD_CAP_AUTO_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="dinersclub_auth_type" type="list" 
+					default="0" 
+					label="TH_CIELO_CARD_AUTH_TYPE" 
+					description="TH_CIELO_CARD_AUTH_TYPE_DESC"
+				>
+	                <option value="0">TH_CIELO_AUTH_ONLY</option>
+	                <option value="1">TH_CIELO_AUTH_AUTHENTICATE_ONLY</option>
+	                <option value="2">TH_CIELO_NO_AUTH_ONLY_AUTHENTICATE</option>
+	                <option value="3">TH_CIELO_DIRECT_AUTH</option>
+	            </field>
+			</fieldset>
+			
+			<fieldset name="americanexpress" label="TH_CIELO_AMERICANEXPRESS_TITLE" description="TH_CIELO_AMERICANEXPRESS_TITLE_DESC">
+				<field name="americanexpress_enabled" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_ENABLED"
+					description="TH_CIELO_CARD_ENABLED_DESC"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				
+				<field name="americanexpress_name"  type="text" default="American Express"
+					label="TH_CIELO_CARD_NAME"
+					description="TH_CIELO_CARD_NAME_DESC" />
+				
+				<field name="americanexpress_min_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_VALUE"
+					description="TH_CIELO_CARD_MIN_VALUE_DESC" />
+					
+				<field name="americanexpress_min_portion_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_PORTION_VALUE"
+					description="TH_CIELO_CARD_MIN_PORTION_VALUE_DESC" />
+				
+				<field name="americanexpress_discount"  type="text" default="0"
+					label="TH_CIELO_CARD_DISCOUNT"
+					description="TH_CIELO_CARD_DISCOUNT_DESC" />
+				
+				<field name="americanexpress_max_without_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITHOUT_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITHOUT_INTEREST_DESC" />
+				
+				<field name="americanexpress_max_with_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITH_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITH_INTEREST_DESC" />
+				
+				<field name="americanexpress_max_portion"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_PORTION"
+					description="TH_CIELO_CARD_MAX_PORTION_DESC" />
+				
+				<field name="americanexpress_interest"  type="text" default="0"
+					label="TH_CIELO_CARD_INTEREST"
+					description="TH_CIELO_CARD_INTEREST_DESC" />
+					
+				<field name="americanexpress_cap_auto" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_CAP_AUTO"
+					description="TH_CIELO_CARD_CAP_AUTO_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="americanexpress_auth_type" type="list" 
+					default="0" 
+					label="TH_CIELO_CARD_AUTH_TYPE" 
+					description="TH_CIELO_CARD_AUTH_TYPE_DESC"
+				>
+	                <option value="0">TH_CIELO_AUTH_ONLY</option>
+	                <option value="1">TH_CIELO_AUTH_AUTHENTICATE_ONLY</option>
+	                <option value="2">TH_CIELO_NO_AUTH_ONLY_AUTHENTICATE</option>
+	                <option value="3">TH_CIELO_DIRECT_AUTH</option>
+	            </field>
+			</fieldset>
+			
+			<fieldset name="elo" label="TH_CIELO_ELO_TITLE" description="TH_CIELO_ELO_TITLE_DESC">
+				<field name="elo_enabled" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_ENABLED"
+					description="TH_CIELO_CARD_ENABLED_DESC"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				
+				<field name="elo_name"  type="text" default="Elo"
+					label="TH_CIELO_CARD_NAME"
+					description="TH_CIELO_CARD_NAME_DESC" />
+				
+				<field name="elo_min_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_VALUE"
+					description="TH_CIELO_CARD_MIN_VALUE_DESC" />
+					
+				<field name="elo_min_portion_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_PORTION_VALUE"
+					description="TH_CIELO_CARD_MIN_PORTION_VALUE_DESC" />
+				
+				<field name="elo_discount"  type="text" default="0"
+					label="TH_CIELO_CARD_DISCOUNT"
+					description="TH_CIELO_CARD_DISCOUNT_DESC" />
+				
+				<field name="elo_max_without_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITHOUT_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITHOUT_INTEREST_DESC" />
+				
+				<field name="elo_max_with_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITH_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITH_INTEREST_DESC" />
+				
+				<field name="elo_max_portion"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_PORTION"
+					description="TH_CIELO_CARD_MAX_PORTION_DESC" />
+				
+				<field name="elo_interest"  type="text" default="0"
+					label="TH_CIELO_CARD_INTEREST"
+					description="TH_CIELO_CARD_INTEREST_DESC" />
+					
+				<field name="elo_cap_auto" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_CAP_AUTO"
+					description="TH_CIELO_CARD_CAP_AUTO_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="elo_auth_type" type="list" 
+					default="0" 
+					label="TH_CIELO_CARD_AUTH_TYPE" 
+					description="TH_CIELO_CARD_AUTH_TYPE_DESC"
+				>
+	                <option value="0">TH_CIELO_AUTH_ONLY</option>
+	                <option value="1">TH_CIELO_AUTH_AUTHENTICATE_ONLY</option>
+	                <option value="2">TH_CIELO_NO_AUTH_ONLY_AUTHENTICATE</option>
+	                <option value="3">TH_CIELO_DIRECT_AUTH</option>
+	            </field>
+			</fieldset>
+			
+			<fieldset name="discover" label="TH_CIELO_DISCOVER_TITLE" description="TH_CIELO_DISCOVER_TITLE_DESC">
+				<field name="discover_enabled" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_ENABLED"
+					description="TH_CIELO_CARD_ENABLED_DESC"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				
+				<field name="discover_name"  type="text" default="Discover"
+					label="TH_CIELO_CARD_NAME"
+					description="TH_CIELO_CARD_NAME_DESC" />
+				
+				<field name="discover_min_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_VALUE"
+					description="TH_CIELO_CARD_MIN_VALUE_DESC" />
+				
+				<field name="discover_discount"  type="text" default="0"
+					label="TH_CIELO_CARD_DISCOUNT"
+					description="TH_CIELO_CARD_DISCOUNT_DESC" />
+					
+				<field name="discover_cap_auto" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_CAP_AUTO"
+					description="TH_CIELO_CARD_CAP_AUTO_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="discover_auth_type" type="list" 
+					default="3" 
+					label="TH_CIELO_CARD_AUTH_TYPE" 
+					description="TH_CIELO_CARD_AUTH_TYPE_DESC"
+				>
+	                <option value="3">TH_CIELO_DIRECT_AUTH</option>
+	            </field>
+			</fieldset>
+			
+			<fieldset name="jcb" label="TH_CIELO_JCB_TITLE" description="TH_CIELO_JCB_TITLE_DESC">
+				<field name="jcb_enabled" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_ENABLED"
+					description="TH_CIELO_CARD_ENABLED_DESC"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				
+				<field name="jcb_name"  type="text" default="JCB"
+					label="TH_CIELO_CARD_NAME"
+					description="TH_CIELO_CARD_NAME_DESC" />
+				
+				<field name="jcb_min_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_VALUE"
+					description="TH_CIELO_CARD_MIN_VALUE_DESC" />
+					
+				<field name="jcb_min_portion_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_PORTION_VALUE"
+					description="TH_CIELO_CARD_MIN_PORTION_VALUE_DESC" />
+				
+				<field name="jcb_discount"  type="text" default="0"
+					label="TH_CIELO_CARD_DISCOUNT"
+					description="TH_CIELO_CARD_DISCOUNT_DESC" />
+				
+				<field name="jcb_max_without_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITHOUT_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITHOUT_INTEREST_DESC" />
+				
+				<field name="jcb_max_with_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITH_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITH_INTEREST_DESC" />
+				
+				<field name="jcb_max_portion"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_PORTION"
+					description="TH_CIELO_CARD_MAX_PORTION_DESC" />
+				
+				<field name="jcb_interest"  type="text" default="0"
+					label="TH_CIELO_CARD_INTEREST"
+					description="TH_CIELO_CARD_INTEREST_DESC" />
+					
+				<field name="jcb_cap_auto" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_CAP_AUTO"
+					description="TH_CIELO_CARD_CAP_AUTO_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="jcb_auth_type" type="list" 
+					default="0" 
+					label="TH_CIELO_CARD_AUTH_TYPE" 
+					description="TH_CIELO_CARD_AUTH_TYPE_DESC"
+				>
+	                <option value="0">TH_CIELO_AUTH_ONLY</option>
+	                <option value="1">TH_CIELO_AUTH_AUTHENTICATE_ONLY</option>
+	                <option value="2">TH_CIELO_NO_AUTH_ONLY_AUTHENTICATE</option>
+	                <option value="3">TH_CIELO_DIRECT_AUTH</option>
+	            </field>
+			</fieldset>
+			
+			<fieldset name="aura" label="TH_CIELO_AURA_TITLE" description="TH_CIELO_AURA_TITLE_DESC">
+				<field name="aura_enabled" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_ENABLED"
+					description="TH_CIELO_CARD_ENABLED_DESC"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				
+				<field name="aura_name"  type="text" default="Aura"
+					label="TH_CIELO_CARD_NAME"
+					description="TH_CIELO_CARD_NAME_DESC" />
+				
+				<field name="aura_min_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_VALUE"
+					description="TH_CIELO_CARD_MIN_VALUE_DESC" />
+					
+				<field name="aura_min_portion_value"  type="text" default="5"
+					label="TH_CIELO_CARD_MIN_PORTION_VALUE"
+					description="TH_CIELO_CARD_MIN_PORTION_VALUE_DESC" />
+				
+				<field name="aura_discount"  type="text" default="0"
+					label="TH_CIELO_CARD_DISCOUNT"
+					description="TH_CIELO_CARD_DISCOUNT_DESC" />
+				
+				<field name="aura_max_without_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITHOUT_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITHOUT_INTEREST_DESC" />
+				
+				<field name="aura_max_with_interest"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_WITH_INTEREST"
+					description="TH_CIELO_CARD_MAX_WITH_INTEREST_DESC" />
+				
+				<field name="aura_max_portion"  type="text" default="5"
+					label="TH_CIELO_CARD_MAX_PORTION"
+					description="TH_CIELO_CARD_MAX_PORTION_DESC" />
+				
+				<field name="aura_interest"  type="text" default="0"
+					label="TH_CIELO_CARD_INTEREST"
+					description="TH_CIELO_CARD_INTEREST_DESC" />
+					
+				<field name="aura_cap_auto" type="radio"
+					class="btn-group"
+					default="0"
+					label="TH_CIELO_CARD_CAP_AUTO"
+					description="TH_CIELO_CARD_CAP_AUTO_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="aura_auth_type" type="list" 
+					default="0" 
+					label="TH_CIELO_CARD_AUTH_TYPE" 
+					description="TH_CIELO_CARD_AUTH_TYPE_DESC"
+				>
+	                <option value="0">TH_CIELO_AUTH_ONLY</option>
+	                <option value="1">TH_CIELO_AUTH_AUTHENTICATE_ONLY</option>
+	                <option value="2">TH_CIELO_NO_AUTH_ONLY_AUTHENTICATE</option>
+	                <option value="3">TH_CIELO_DIRECT_AUTH</option>
+	            </field>
+			</fieldset>
+			
+		</fields>
+	</config>
+</extension>
