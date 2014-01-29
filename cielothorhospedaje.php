@@ -66,6 +66,7 @@ class plgThorhospedajeCieloThorhospedaje extends JPlugin
 				// Es tarjeta de débito
 				{
 					$html .= sprintf('<input type="radio" name="parcelas" /> 1 parcela de %s%d', $monedas[$params['pais']],$params['monto']);
+					print_r($params);
 					// Falta el descuento
 				}
 				$html .= JHtml::_('bootstrap.endPanel');
