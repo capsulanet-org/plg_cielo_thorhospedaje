@@ -65,9 +65,33 @@ class plgThorhospedajeCieloThorhospedaje extends JPlugin
 				if ($this->params->get($card . '_max_without_interest', NULL) == NULL)
 				// Es tarjeta de débito
 				{
-					$html .= sprintf('<input type="radio" name="parcelas" /> 1 parcela de %s%d', $monedas[$params['pais']],$params['monto']);
-					print_r($params);
-					// Falta el descuento
+					// Aca debe llenarse el monto final de la compra, temporalmente se hará así
+					$monto_compra = $params['monto'];
+					$html .= sprintf('<input type="radio" name="parcelas" /> 1 parcela de %s', $monedas[$params['pais']]);
+					// Descuento
+					if (($this->params->get($card . '_discount', NULL) != NULL) && ($this->params->get($card . '_discount', NULL) != 0))
+					{
+						$monto_compra = $monto_compra - ($monto_compra * ($this->params->get($card . '_discount', NULL) / 100));
+					}
+					$html .= sprintf('%d (con %s%% de descuento)', $monto_compra, $this->params->get($card . '_discount', NULL));
+					// Descuento
+				}else
+				// Es tarjeta de crédito
+				{
+					// Aca debe llenarse el monto final de la compra, temporalmente se hará así
+					$monto_compra = $params['monto'];
+					$html .= sprintf('<input type="radio" name="parcelas" /> 1 parcela de %s', $monedas[$params['pais']]);
+					// Descuento
+					if (($this->params->get($card . '_discount', NULL) != NULL) && ($this->params->get($card . '_discount', NULL) != 0))
+					{
+						$monto_compra = $monto_compra - ($monto_compra * ($this->params->get($card . '_discount', NULL) / 100));
+					}
+					$html .= sprintf('%d (con %s%% de descuento) <br />', $monto_compra, $this->params->get($card . '_discount', NULL));
+					// Descuento
+					for ($k = 0; $k < $this->params->get($card . '_max_without_interest', NULL); $k++)
+					{
+						$html .= sprintf('<input type="radio" name="parcelas" /> %s parcelas de %s%.2f (sin intereses) <br />', $k+2, $monedas[$params['pais']], ($params['monto']/($k+2)));
+					}
 				}
 				$html .= JHtml::_('bootstrap.endPanel');
 			}
