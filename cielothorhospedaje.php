@@ -67,7 +67,7 @@ class plgThorhospedajeCieloThorhospedaje extends JPlugin
 				{
 					// Aca debe llenarse el monto final de la compra, temporalmente se hará así
 					$monto_compra = $params['monto'];
-					$html .= sprintf('<input type="radio" name="parcelas" /> 1 parcela de %s', $monedas[$params['pais']]);
+					$html .= sprintf('<input type="radio" name="parcelas" value="%s_1" /> 1 parcela de %s', $card, $monedas[$params['pais']]);
 					// Descuento
 					if (($this->params->get($card . '_discount', NULL) != NULL) && ($this->params->get($card . '_discount', NULL) != 0))
 					{
@@ -80,7 +80,7 @@ class plgThorhospedajeCieloThorhospedaje extends JPlugin
 				{
 					// Aca debe llenarse el monto final de la compra, temporalmente se hará así
 					$monto_compra = $params['monto'];
-					$html .= sprintf('<input type="radio" name="parcelas" /> 1 parcela de %s', $monedas[$params['pais']]);
+					$html .= sprintf('<input type="radio" name="parcelas" value="%s_1" /> 1 parcela de %s', $card, $monedas[$params['pais']]);
 					// Descuento
 					if (($this->params->get($card . '_discount', NULL) != NULL) && ($this->params->get($card . '_discount', NULL) != 0))
 					{
@@ -90,8 +90,10 @@ class plgThorhospedajeCieloThorhospedaje extends JPlugin
 					// Descuento
 					for ($k = 0; $k < $this->params->get($card . '_max_without_interest', NULL); $k++)
 					{
-						$html .= sprintf('<input type="radio" name="parcelas" /> %s parcelas de %s%.2f (sin intereses) <br />', $k+2, $monedas[$params['pais']], ($params['monto']/($k+2)));
+						$html .= sprintf('<input type="radio" name="parcelas" value="%s_%d" /> %s parcelas de %s%.2f (sin intereses) <br />', $card, $k+2, $k+2, $monedas[$params['pais']], ($params['monto']/($k+2)));
 					}
+					
+					// Falta el pago con intereses
 				}
 				$html .= JHtml::_('bootstrap.endPanel');
 			}
