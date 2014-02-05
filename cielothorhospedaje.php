@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 class plgThorhospedajeCieloThorhospedaje extends JPlugin
 {
 	private $_titulo = '<h3 style="color: %s">%s</h3>';
+	private $cards = array('visa_electron','redeshop_maestro','visa','mastercard','dinersclub','americanexpress','elo','discover','jcb','aura');
 
 /**
  * Constructor del objeto
@@ -35,11 +36,11 @@ class plgThorhospedajeCieloThorhospedaje extends JPlugin
 	public function onTHShowPay($context, $params)
 	{	
 		$monedas = array(0 => '$', 1 => '', 2 => '$', 3 => 'Bs');
-		$cards = array('visa_electron','redeshop_maestro','visa','mastercard','dinersclub','americanexpress','elo','discover','jcb','aura');
+		
 		$cardsImages = array('visa_electron.png','redeshop.png','visa.png','mastercard.png','diners.png','amex.png','elo.png','discover.png','jcb.png','aura.png');
 		$html = "<ul class='nav nav-tabs' id='pay-method'>";
 		$i = 0;
-		foreach ($cards as $card)
+		foreach ($this->cards as $card)
 		{
 			$i++;
 			if ($this->params->get($card . '_enabled'))
@@ -54,7 +55,7 @@ class plgThorhospedajeCieloThorhospedaje extends JPlugin
 		$html .= "</ul>";
 		$html .= JHtml::_('bootstrap.startPane', 'pay-method', NULL	);
 		$i = 0;
-		foreach ($cards as $card)
+		foreach ($this->cards as $card)
 		{
 			$i++;
 			if ($this->params->get($card . '_enabled'))
@@ -67,7 +68,7 @@ class plgThorhospedajeCieloThorhospedaje extends JPlugin
 				{
 					// Aca debe llenarse el monto final de la compra, temporalmente se hará así
 					$monto_compra = $params['monto'];
-					$html .= sprintf('<input type="radio" name="parcelas" value="%s_1" /> 1 parcela de %s', $card, $monedas[$params['pais']]);
+					$html .= sprintf('<input type="radio" name="parcelas" value="%s_A" /> 1 parcela de %s', $card, $monedas[$params['pais']]);
 					// Descuento
 					if (($this->params->get($card . '_discount', NULL) != NULL) && ($this->params->get($card . '_discount', NULL) != 0))
 					{
@@ -106,4 +107,65 @@ class plgThorhospedajeCieloThorhospedaje extends JPlugin
 		
 		return $html;
 	}//fin onContentPrepare
+	
+
+/**
+ * --- LJAH Falta documentar todo esto correctamente
+ * Esta función es ejecutada antes de renderizar el articulo
+ *
+ * @param String $context es el contexto en el cual es ejecutada
+ * @param Object $row es un objeto que contiene la información del articulo(como titulo, contenido, url, autor, etc)
+ * @param Object $params es un objeto que contiene la información del portal y parametros del plugin
+ * @param Integer $limitstart desplazamiento del elemento
+ */
+	public function onTHExecutePay($context, $params)
+	{	
+		jimport('thorhospedaje.cielo.cielo');
+		$Pago = new THCielo();
+		$card = $Pago->formaPagamentoBandeira = $params["formaPagamentoBandeira"]; 
+		if($params["formaPagamento"] != "A" && $params["formaPagamento"] != "1")
+		{
+			$Pago->formaPagamentoProduto = $params["tipoParcelamento"];
+			$Pago->formaPagamentoParcelas = $params["formaPagamento"];
+		} 
+		else 
+		{
+			$Pago->formaPagamentoProduto = $params["formaPagamento"];
+			$Pago->formaPagamentoParcelas = 1;
+		}
+		
+		
+		
+		$Pago->dadosEcNumero = $this->params->get('n_establecimiento');
+		$Pago->dadosEcChave = $this->params->get('cielo_key');
+		
+		$Pago->capturar = $this->params->get($card . '_cap_auto');	
+		$Pago->autorizar = $this->params->get($card . '_auth_type');
+		
+		$Pago->dadosPedidoNumero = rand(1000000, 9999999); // LJAH: Debe generarse un número válido
+		$Pago->dadosPedidoValor = 100; // LJAH: Falta enviar el precio del producto correctamente, esto es 1,00 Reales BR
+		$Pago->urlRetorno = $params["urlRetorno"];
+		
+		// ENVIA REQUISIÇÃO SITE CIELO
+		echo "ENVIA REQUISIÇÃO SITE CIELO"; 
+		$objResposta = $Pago->RequisicaoTransacao(false);
+		//print_r($objResposta);	
+		$Pago->tid = $objResposta->tid;
+		$Pago->pan = $objResposta->pan;
+		$Pago->status = $objResposta->status;
+		
+		/*$urlAutenticacao = "url-autenticacao";*/
+		$Pago->urlAutenticacao = $objResposta->$urlAutenticacao;
+
+		// Serializa Pedido e guarda na SESSION
+		/*$StrPedido = $Pedido->ToString();
+		$_SESSION["pedidos"]->append($StrPedido);
+		echo "Url Pedido" . $Pedido->urlAutenticacao;	*/
+
+		$html = '<script type="text/javascript">
+				window.location.href = "' . $Pago->urlAutenticacao . '"
+			 </script>';
+
+		return $html;
+	}//fin onTHExecutePay
 }
