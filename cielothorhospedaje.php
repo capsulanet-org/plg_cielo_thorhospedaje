@@ -149,18 +149,11 @@ class plgThorhospedajeCieloThorhospedaje extends JPlugin
 		// ENVIA REQUISIÇÃO SITE CIELO
 		echo "ENVIA REQUISIÇÃO SITE CIELO"; 
 		$objResposta = $Pago->RequisicaoTransacao(false);
-		//print_r($objResposta);	
 		$Pago->tid = $objResposta->tid;
 		$Pago->pan = $objResposta->pan;
 		$Pago->status = $objResposta->status;
-		
-		/*$urlAutenticacao = "url-autenticacao";*/
+		$urlAutenticacao = "url-autenticacao";
 		$Pago->urlAutenticacao = $objResposta->$urlAutenticacao;
-
-		// Serializa Pedido e guarda na SESSION
-		/*$StrPedido = $Pedido->ToString();
-		$_SESSION["pedidos"]->append($StrPedido);
-		echo "Url Pedido" . $Pedido->urlAutenticacao;	*/
 
 		$html = '<script type="text/javascript">
 				window.location.href = "' . $Pago->urlAutenticacao . '"
