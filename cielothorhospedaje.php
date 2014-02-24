@@ -120,7 +120,7 @@ class plgThorhospedajeCieloThorhospedaje extends JPlugin
  */
 	public function onTHExecutePay($context, $params)
 	{	
-		jimport('thorhospedaje.cielo.cielo');
+		jimport('cielo_thorhospedaje.cielo.cielo');
 		$Pago = new THCielo();
 		$card = $Pago->formaPagamentoBandeira = $params["formaPagamentoBandeira"]; 
 		if($params["formaPagamento"] != "A" && $params["formaPagamento"] != "1")
