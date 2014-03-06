@@ -121,6 +121,8 @@ class plgThorhospedajeCieloThorhospedaje extends JPlugin
 	public function onTHExecutePay($context, $params)
 	{	
 		jimport('cielo_thorhospedaje.cielo.cielo');
+		$app =& JFactory::getApplication();
+
 		$Pago = new THCielo();
 		$card = $Pago->formaPagamentoBandeira = $params["formaPagamentoBandeira"]; 
 		if($params["formaPagamento"] != "A" && $params["formaPagamento"] != "1")
@@ -147,14 +149,17 @@ class plgThorhospedajeCieloThorhospedaje extends JPlugin
 		$Pago->urlRetorno = $params["urlRetorno"];
 		
 		// ENVIA REQUISIÇÃO SITE CIELO
-		echo "ENVIA REQUISIÇÃO SITE CIELO"; 
+		//echo "ENVIA REQUISIÇÃO SITE CIELO"; 
 		$objResposta = $Pago->RequisicaoTransacao(false);
 		$Pago->tid = $objResposta->tid;
 		$Pago->pan = $objResposta->pan;
 		$Pago->status = $objResposta->status;
 		$urlAutenticacao = "url-autenticacao";
 		$Pago->urlAutenticacao = $objResposta->$urlAutenticacao;
-
+		
+		$StrPago = $Pago->ToString();
+		$app->setUserState('thorhospedaje.posaderos.pago', $StrPago);
+		
 		$html = '<script type="text/javascript">
 				window.location.href = "' . $Pago->urlAutenticacao . '"
 			 </script>';
